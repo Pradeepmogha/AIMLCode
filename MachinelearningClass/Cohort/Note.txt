@@ -1,0 +1,4 @@
+﻿Please see the videos of Cohort project how this project was solved
+and problems where faced in it. Just looking at the code 
+will not understand how the paint points.
+

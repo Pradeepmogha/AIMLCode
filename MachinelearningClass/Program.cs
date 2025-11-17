@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML;
 using Microsoft.ML.Data;
-
+using Microsoft.ML.Trainers;
 namespace MachinelearningClass
 {
     internal class Program
@@ -8,8 +8,8 @@ namespace MachinelearningClass
        
         static void Main(string[] args)
         {
-            Week1.Lab7_LargeFileTestingwithAutoMLOutput();
 
+            Week2.Lab10_SimpleCustering();
         }
     }
     

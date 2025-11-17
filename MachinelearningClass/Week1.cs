@@ -102,57 +102,6 @@ namespace MachinelearningClass
             Console.WriteLine($"Best Model: {result.BestRun.TrainerName}");
             Console.Read();
         }
-        public static void Lab6_SimplestMLAutoMlWithHugeData()
-        {
-            var mlContext = new MLContext();
-            var data = mlContext.Data.LoadFromTextFile<InsuranceData>(
-            path: "C:\\Users\\shivB\\source\\repos\\MachinelearningClass\\MachinelearningClass\\linear_insurance_100k.csv",   // your CSV file path
-            hasHeader: true,
-            separatorChar: ',');
-            var splitData = mlContext.Data.TrainTestSplit(data, testFraction: 0.2);
-            var trainData = splitData.TrainSet;
-            var testData = splitData.TestSet;
-            var experimentSettings = new RegressionExperimentSettings
-            {
-                MaxExperimentTimeInSeconds = 30 // try every nodel for x sec
-            };
-            var experiment = mlContext.Auto().CreateRegressionExperiment(experimentSettings);
-            var result = experiment.Execute(data, labelColumnName: "Premium");
-            foreach (var run in result.RunDetails)
-            {
-                Console.WriteLine($"Model: {run.TrainerName}");
-                Console.WriteLine($"R²: {run.ValidationMetrics.RSquared}");
-                Console.WriteLine($"RMSE: {run.ValidationMetrics.RootMeanSquaredError}");
-                Console.WriteLine("------------------------------------");
-            }
-            // Get best model
-            var bestModel = result.BestRun.Model;
-            Console.WriteLine($"Best Model: {result.BestRun.TrainerName}");
-
-        }
-        public static void Lab7_LargeFileTestingwithAutoMLOutput()
-        {
-            var mlContext = new MLContext();
-            var data = mlContext.Data.LoadFromTextFile<InsuranceData>(
-            path: "C:\\Users\\shivB\\source\\repos\\MachinelearningClass\\MachinelearningClass\\linear_insurance_100k.csv",   // your CSV file path
-            hasHeader: true,
-            separatorChar: ',');
-           
-            var pipeline = mlContext.Transforms // f1 = Age + Salary
-                                     .Concatenate("Features", "Age")
-                                     .Append(
-                                      mlContext.Regression.Trainers
-                                      .Sdca(labelColumnName: "Premium",
-                                             featureColumnName: "Features"
-                                       ));
-            var model = pipeline.Fit(data); // execution = data + Ols ==> Model
-            var pe = mlContext.Model.
-                        CreatePredictionEngine<InsuranceData, InsurancePrediction>(model);
-            var prediction = pe.Predict(new InsuranceData { Age = 45 });
-
-            Console.WriteLine(prediction.PredictedPremium);
-            Console.Read();
-
-        }
+        
     }
 }
